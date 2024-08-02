@@ -1,5 +1,8 @@
 const { Message } = require('../models/models')
 const ApiError = require('../error/ApiError')
+const events = require('events')
+
+const emitter = new events.EventEmitter()
 
 class messageController {
 	async getMessages(req, res) {
@@ -9,8 +12,16 @@ class messageController {
 			where: { chat_id: chat_id },
 			limit,
 		})
-		return res.json(messages.rows) //rows - массив объектов полученной записи
+		emitter.once('newMessage', chatMessage => {
+			return res.json(chatMessage)
+		})
+		//return res.json(messages.rows) //rows - массив объектов полученной записи
 	}
+	// async getNewMessage(req, res) {
+	// 	emitter.once('newMessage', chatMessage => {
+	// 		res.json(chatMessage)
+	// 	})
+	// }
 	async createMessage(req, res) {
 		const { chat_id } = req.params
 		const { user_id, message } = req.body
@@ -19,6 +30,7 @@ class messageController {
 			user_id: user_id,
 			message: message,
 		})
+		emitter.emit('newMessage', chatMessage)
 		return res.json(chatMessage)
 	}
 }
