@@ -1,9 +1,9 @@
 export const URLS = {
-	PROFILE: '/profile/:id',
+	PROFILE: '/profile',
 	AUTH: {
 		LOGIN: '/login',
 		REGISTRATION: '/registration',
 	},
 	MAIN: '/',
-	CHAT: '/chat/:id',
+	CHAT: '/chat',
 }

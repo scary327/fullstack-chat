@@ -6,11 +6,11 @@ import { URLS } from './app.urls'
 
 export const authRoutes = [
 	{
-		path: URLS.CHAT,
+		path: URLS.CHAT + '/:chat_id',
 		component: Chat,
 	},
 	{
-		path: URLS.PROFILE,
+		path: URLS.PROFILE + '/:id',
 		component: Profile,
 	},
 ]

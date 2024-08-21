@@ -1,21 +1,29 @@
 import { ErrorPage } from 'pages/error'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
+import { Layout } from 'shared/ui/layout'
 import { authRoutes, publicRoutes } from './app.routes'
 
 export const AppRouter = () => {
-	const isAuth = false
+	const isAuth = true
+
 	return (
-		<BrowserRouter>
-			<Routes>
-				{isAuth &&
-					authRoutes.map(({ path, component }) => (
-						<Route key={path} path={path} element={component()} />
-					))}
-				{publicRoutes.map(({ path, component }) => (
-					<Route key={path} path={path} element={component()} />
+		<Routes>
+			{isAuth &&
+				authRoutes.map(({ path, component }) => (
+					<Route
+						key={path}
+						path={path}
+						element={<Layout>{component()}</Layout>}
+					/>
 				))}
-				<Route path='*' element={<ErrorPage />} />
-			</Routes>
-		</BrowserRouter>
+			{publicRoutes.map(({ path, component }) => (
+				<Route
+					key={path}
+					path={path}
+					element={<Layout>{component()}</Layout>}
+				/>
+			))}
+			<Route path='*' element={<ErrorPage />} />
+		</Routes>
 	)
 }
